@@ -1,0 +1,20 @@
+{
+  "id": "promesa",
+  "name": "Promesa Church",
+  "qna": {
+    "service-times": "We meet Sundays at 9:00 AM (English) and 11:00 AM (Español).",
+    "service-times-es": "Nos reunimos los domingos a las 9:00 AM (inglés) y a las 11:00 AM (español).",
+    "location": "11602 Lake Underhill Rd, Orlando, FL. Parking is available behind the building.",
+    "location-es": "11602 Lake Underhill Rd, Orlando, FL. Estacionamiento disponible detrás del edificio.",
+    "prayer-request": "You can share a prayer request here and our prayer team at Promesa will pray for you.",
+    "prayer-request-es": "Puedes compartir una petición de oración aquí y el equipo de oración de Promesa orará por ti."
+  },
+  "routing": {
+    "prayerEmail": "prayer@promesachurch.org",
+    "officeEmail": "info@promesachurch.org"
+  },
+  "allowedOrigins": [
+    "https://www.promesachurch.org",
+    "https://promesachurch.org"
+  ]
+}
