@@ -1,0 +1,13 @@
+{
+  "id": "default",
+  "name": "Default Church",
+  "qna": {
+    "service-times": "We meet Sundays at 10:00 AM.",
+    "location": "We are located at 123 Main St. Parking is available on the north and south sides of the building.",
+    "prayer-request": "You can share a prayer request here and our prayer team will pray for you."
+  },
+  "routing": {
+    "prayerEmail": "prayer@example.org",
+    "officeEmail": "info@example.org"
+  }
+}

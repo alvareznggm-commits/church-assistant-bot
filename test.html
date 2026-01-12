@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Bot Test</title>
+</head>
+<body>
+  <h1>Church Assistant Bot Test</h1>
+
+  <button id="serviceBtn">Ask: Service Times</button>
+  <button id="locationBtn">Ask: Location</button>
+
+  <p><strong>Response:</strong></p>
+  <pre id="responseBox"></pre>
+
+  <script>
+    const API_URL = "http://localhost:3000/bot";
+
+    async function ask(intent) {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ intent })
+      });
+      const data = await res.json();
+      document.getElementById("responseBox").innerText = data.response || "(no response)";
+    }
+
+    document.getElementById("serviceBtn").addEventListener("click", () => ask("service-times"));
+    document.getElementById("locationBtn").addEventListener("click", () => ask("location"));
+  </script>
+</body>
+</html>
