@@ -159,7 +159,7 @@
   // Determine churchId from script tag
   const thisScript = document.currentScript;
   const churchId = thisScript.getAttribute("data-church-id") || "default";
-  const API_URL = "http://localhost:3000/bot"; // change to Render URL later
+  const API_URL = "https://church-assistant-bot.onrender.com/bot"; // change to Render URL later
 
   async function sendIntent(intent, label) {
     addMessage(label, true);
