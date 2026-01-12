@@ -34,13 +34,10 @@ function loadChurchConfig(churchId = "default") {
 }
 
 // ========== OPTIONAL AI REWRITE (SAFE WRAPPER) ==========
-
-// NOTE: For now, if OPENAI_API_KEY is not set, we just return the original text.
-// When you're ready to wire AI, set process.env.OPENAI_API_KEY and this will try
-// to call OpenAI's API using fetch (Node 18+ has global fetch).
+// Uses Node 18+ global fetch when OPENAI_API_KEY is set.
+// If no key is present, it simply returns the original text.
 
 async function rewriteAnswer(originalText) {
-  // No API key? Just return as-is.
   if (!process.env.OPENAI_API_KEY) {
     return originalText;
   }
@@ -122,7 +119,14 @@ async function sendEmail(to, subject, msg) {
 // ========== BOT ENDPOINT ==========
 
 app.post("/bot", async (req, res) => {
-  const { churchId = "default", intent, message, name, phone, email } = req.body || {};
+  const {
+    churchId = "default",
+    intent,
+    message,
+    name,
+    phone,
+    email
+  } = req.body || {};
 
   const config = loadChurchConfig(churchId);
   const qna = config.qna || {};
@@ -134,24 +138,20 @@ app.post("/bot", async (req, res) => {
     return res.json({ response: rewritten });
   }
 
-  // 2) Prayer request intent - with captured message
+  // 2) Prayer request intent - with captured message + contact info
   if (intent === "prayer-request" && message) {
     const to =
       routing.prayerEmail || routing.officeEmail || process.env.TARGET_EMAIL;
 
     if (to) {
-      await sendEmail(
-      to,
-     `New prayer request`,
-     `From: ${name || "Unknown"}
-      Email: ${email || "N/A"}
-      Phone: ${phone || "N/A"}
+      const body = `From: ${name || "Unknown"}
+Email: ${email || "N/A"}
+Phone: ${phone || "N/A"}
 
-      Request:
-      ${message}`
-      );
+Request:
+${message}`;
 
-      );
+      await sendEmail(to, "New prayer request", body);
     }
 
     return res.json({
@@ -163,10 +163,17 @@ app.post("/bot", async (req, res) => {
   if (message) {
     const to = routing.officeEmail || process.env.TARGET_EMAIL;
     if (to) {
+      const body = `From: ${name || "Unknown"}
+Email: ${email || "N/A"}
+Phone: ${phone || "N/A"}
+
+Message:
+${message}`;
+
       await sendEmail(
         to,
-        `New message via assistant from ${email || "unknown"}`,
-        message
+        `New message via assistant`,
+        body
       );
     }
   }
