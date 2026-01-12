@@ -141,9 +141,16 @@ app.post("/bot", async (req, res) => {
 
     if (to) {
       await sendEmail(
-        to,
-        `New prayer request from ${email || "unknown"}`,
-        message
+      to,
+     `New prayer request`,
+     `From: ${name || "Unknown"}
+      Email: ${email || "N/A"}
+      Phone: ${phone || "N/A"}
+
+      Request:
+      ${message}`
+      );
+
       );
     }
 

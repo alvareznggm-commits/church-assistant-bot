@@ -98,7 +98,8 @@
     gap: "6px"
   });
 
-  const prayerLabel = document.createElement("div");
+  
+ const prayerLabel = document.createElement("div");
   prayerLabel.innerText = "Share a prayer request (sent to prayer team):";
 
   const prayerTextarea = document.createElement("textarea");
@@ -111,9 +112,29 @@
     padding: "4px"
   });
 
-  const emailInput = document.createElement("input");
+const nameInput = document.createElement("input");
+nameInput.type = "text";
+nameInput.placeholder = "Your name";
+style(nameInput, {
+  width: "100%",
+  fontFamily: "inherit",
+  fontSize: "13px",
+  padding: "4px"
+});
+
+const phoneInput = document.createElement("input");
+phoneInput.type = "tel";
+phoneInput.placeholder = "Phone";
+style(phoneInput, {
+  width: "100%",
+  fontFamily: "inherit",
+  fontSize: "13px",
+  padding: "4px"
+});
+  
+const emailInput = document.createElement("input");
   emailInput.type = "email";
-  emailInput.placeholder = "Your email (optional)";
+  emailInput.placeholder = "Your email";
   style(emailInput, {
     width: "100%",
     fontFamily: "inherit",
@@ -136,8 +157,13 @@
 
   prayerForm.appendChild(prayerLabel);
   prayerForm.appendChild(prayerTextarea);
+  prayerForm.appendChild(prayerLabel);
+  prayerForm.appendChild(prayerTextarea);
+  prayerForm.appendChild(nameInput);
+  prayerForm.appendChild(phoneInput);
   prayerForm.appendChild(emailInput);
   prayerForm.appendChild(sendPrayerBtn);
+
 
   // ----- ADD MESSAGE BUBBLES -----
   function addMessage(text, isUser) {
@@ -178,8 +204,11 @@
   }
 
   async function sendPrayer() {
-    const text = prayerTextarea.value.trim();
-    const email = emailInput.value.trim();
+   const text = prayerTextarea.value.trim();
+   const name = nameInput.value.trim();
+   const phone = phoneInput.value.trim();
+   const email = emailInput.value.trim();
+
 
     if (!text) {
       alert("Please enter a prayer request.");
@@ -196,7 +225,9 @@
           churchId,
           intent: "prayer-request",
           message: text,
-          email
+           name,
+  	   phone,
+           email
         })
       });
       const data = await res.json();
