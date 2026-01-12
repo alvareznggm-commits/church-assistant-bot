@@ -122,7 +122,7 @@ async function sendEmail(to, subject, msg) {
 // ========== BOT ENDPOINT ==========
 
 app.post("/bot", async (req, res) => {
-  const { churchId = "default", intent, message, email } = req.body || {};
+  const { churchId = "default", intent, message, name, phone, email } = req.body || {};
 
   const config = loadChurchConfig(churchId);
   const qna = config.qna || {};

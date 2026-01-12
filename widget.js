@@ -89,6 +89,7 @@
   });
 
   // Prayer form (hidden until needed)
+    // Prayer form (hidden until needed)
   const prayerForm = document.createElement("div");
   style(prayerForm, {
     padding: "8px 12px",
@@ -98,8 +99,7 @@
     gap: "6px"
   });
 
-  
- const prayerLabel = document.createElement("div");
+  const prayerLabel = document.createElement("div");
   prayerLabel.innerText = "Share a prayer request (sent to prayer team):";
 
   const prayerTextarea = document.createElement("textarea");
@@ -112,29 +112,29 @@
     padding: "4px"
   });
 
-const nameInput = document.createElement("input");
-nameInput.type = "text";
-nameInput.placeholder = "Your name";
-style(nameInput, {
-  width: "100%",
-  fontFamily: "inherit",
-  fontSize: "13px",
-  padding: "4px"
-});
+  const nameInput = document.createElement("input");
+  nameInput.type = "text";
+  nameInput.placeholder = "Your name (optional)";
+  style(nameInput, {
+    width: "100%",
+    fontFamily: "inherit",
+    fontSize: "13px",
+    padding: "4px"
+  });
 
-const phoneInput = document.createElement("input");
-phoneInput.type = "tel";
-phoneInput.placeholder = "Phone";
-style(phoneInput, {
-  width: "100%",
-  fontFamily: "inherit",
-  fontSize: "13px",
-  padding: "4px"
-});
-  
-const emailInput = document.createElement("input");
+  const phoneInput = document.createElement("input");
+  phoneInput.type = "tel";
+  phoneInput.placeholder = "Phone (optional)";
+  style(phoneInput, {
+    width: "100%",
+    fontFamily: "inherit",
+    fontSize: "13px",
+    padding: "4px"
+  });
+
+  const emailInput = document.createElement("input");
   emailInput.type = "email";
-  emailInput.placeholder = "Your email";
+  emailInput.placeholder = "Your email (optional)";
   style(emailInput, {
     width: "100%",
     fontFamily: "inherit",
@@ -155,8 +155,7 @@ const emailInput = document.createElement("input");
     alignSelf: "flex-end"
   });
 
-  prayerForm.appendChild(prayerLabel);
-  prayerForm.appendChild(prayerTextarea);
+  // IMPORTANT: append all fields so they show up in the UI
   prayerForm.appendChild(prayerLabel);
   prayerForm.appendChild(prayerTextarea);
   prayerForm.appendChild(nameInput);
@@ -203,12 +202,11 @@ const emailInput = document.createElement("input");
     }
   }
 
-  async function sendPrayer() {
-   const text = prayerTextarea.value.trim();
-   const name = nameInput.value.trim();
-   const phone = phoneInput.value.trim();
-   const email = emailInput.value.trim();
-
+   async function sendPrayer() {
+    const text = prayerTextarea.value.trim();
+    const name = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const email = emailInput.value.trim();
 
     if (!text) {
       alert("Please enter a prayer request.");
@@ -225,15 +223,21 @@ const emailInput = document.createElement("input");
           churchId,
           intent: "prayer-request",
           message: text,
-           name,
-  	   phone,
-           email
+          name,
+          phone,
+          email
         })
       });
       const data = await res.json();
       addMessage(data.response || "Thank you. Your request has been sent.", false);
+
+      // clear fields
       prayerTextarea.value = "";
+      nameInput.value = "";
+      phoneInput.value = "";
       emailInput.value = "";
+
+      // hide the form again
       prayerForm.style.display = "none";
     } catch (err) {
       console.error("Prayer send error:", err);
@@ -242,6 +246,7 @@ const emailInput = document.createElement("input");
   }
 
   sendPrayerBtn.addEventListener("click", sendPrayer);
+
 
   // ----- QUICK BUTTONS -----
   function makeButton(label, intent) {
